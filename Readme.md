@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Андрей Неустроев](https://up.htmlacademy.ru/univer-nodejs-api/3/user/2505303).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Поляков](https://htmlacademy.ru/profile/polrk).
 
 ---
 
