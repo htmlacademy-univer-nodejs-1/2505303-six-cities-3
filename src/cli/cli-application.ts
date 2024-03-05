@@ -1,0 +1,41 @@
+import { Command } from './commands/command.interface';
+// eslint-disable-next-line node/file-extension-in-import
+import { CommandParser } from './command-parser';
+
+type commandCollection = Record<string, Command>;
+
+export class CLIApplication {
+  private commands: commandCollection = {};
+
+  constructor(private readonly defaultCommand: string = '--help') {}
+
+  public registerCommands(commandList: Command[]): void {
+    commandList.map((command) => {
+      if (Object.hasOwn(this.commands, command.getName())) {
+        throw new Error(`Command ${command.getName()} is already registered`);
+      }
+      this.commands[command.getName()] = command;
+    });
+  }
+
+  public getCommand(commandName: string): Command {
+    return this.commands[commandName] ?? this.getDefaultCommand();
+  }
+
+  public getDefaultCommand(): Command {
+    if (!this.commands[this.defaultCommand]) {
+      throw new Error(
+        `The default command (${this.defaultCommand}) is not registered.`
+      );
+    }
+    return this.commands[this.defaultCommand];
+  }
+
+  public processCommand(argv: string[]): void {
+    const parsedCommand = CommandParser.parse(argv);
+    const [commandName] = Object.keys(parsedCommand);
+    const command = this.getCommand(commandName);
+    const commandArguments = parsedCommand[commandName] ?? [];
+    command.execute(...commandArguments);
+  }
+}
