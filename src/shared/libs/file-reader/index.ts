@@ -1,2 +1,3 @@
-export * from './file-reader.interface.js';
-export * from './tsv-file-reader.js';
+export * from './file-reader.interface';
+// eslint-disable-next-line node/file-extension-in-import
+export * from './tsv-file-reader';

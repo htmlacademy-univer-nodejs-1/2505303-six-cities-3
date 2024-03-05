@@ -1,5 +1,6 @@
 import { Command } from './commands/command.interface';
-import { CommandParser } from './command-parser.js';
+// eslint-disable-next-line node/file-extension-in-import
+import { CommandParser } from './command-parser';
 
 type commandCollection = Record<string, Command>;
 
