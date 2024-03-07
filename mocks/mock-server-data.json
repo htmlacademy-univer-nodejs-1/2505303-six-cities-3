@@ -1,0 +1,94 @@
+{
+  "api": {
+    "name": [
+      "Rest House",
+      "Big modern House",
+      "Room",
+      "Apartaments Room",
+      "Chill Zone"
+    ],
+    "description": [
+      "description1",
+      "description12",
+      "description123",
+      "description1234",
+      "description112323"
+    ],
+    "cities": [
+      "Paris",
+      "Amsterdam",
+      "Hamburg",
+      "Moskiw",
+      "Brussels",
+      "Ekaterinburg",
+      "London"
+    ],
+    "imagesPreview": [
+      "image1-preview.jpg",
+      "image2-preview.jpg",
+      "image3-preview.jpg",
+      "image4-preview.jpg",
+      "image5-preview.jpg"
+    ],
+    "placesImages": [
+      "place1.jpg",
+      "place2.jpg",
+      "place3.jpg",
+      "place4.jpg",
+      "place5.jpg",
+      "place6.jpg",
+      "place7.jpg",
+      "place8.jpg",
+      "place9.jpg"
+    ],
+    "facilities": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "avatars": [
+      "user1.jpg",
+      "John.jpg",
+      "avatar31.jpg",
+      "Casual.jpg",
+      "network.jpg"
+    ],
+    "emails": [
+      "email1@mail.ru",
+      "email2@ya.ru",
+      "email3@mail.ru",
+      "email4@gmail.com",
+      "email5@mail.ru"
+    ],
+    "author": [
+      "Jane Doe",
+      "Alice Smith",
+      "John Doe",
+      "Bob Smith",
+      "Alan Smith"
+    ],
+    "passwords": [
+      "password1",
+      "123123",
+      "password",
+      "qwerty123",
+      "qwerty"
+    ],
+    "userTypes": [
+      "ordinary",
+      "pro"
+    ],
+    "coordinates": [
+      "52.370216 4.895168",
+      "53.550341 10.000654",
+      "48.856611 2.351499",
+      "50.937531 6.960279",
+      "50.846557 4.351697",
+      "51.225402 6.776314"
+    ]
+  }
+}
