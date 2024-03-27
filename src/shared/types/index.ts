@@ -5,4 +5,5 @@ export * from './place-type.enum';
 export * from './user-type.enum';
 export * from './user.type';
 export * from './mock-server-data.type';
-export * from './component.enum.js';
+export * from './component.enum';
+export * from './offer-coordinates.type';

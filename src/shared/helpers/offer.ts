@@ -5,10 +5,10 @@ import {
   UserType,
 } from '../types';
 
-export function createOffer(offerData: string): Offer|undefined {
+export function createOffer(offerData: string): Offer {
 
   if (!offerData.trim().length) {
-    return;
+    throw new Error('Can\'t import data from file');
   }
   const [
     name,
@@ -34,7 +34,7 @@ export function createOffer(offerData: string): Offer|undefined {
     countOfComments,
     latitude,
     longitude,
-  ] = offerData.replace('\n','').split('\t');
+  ] = offerData.replace('\n', '').split('\t');
 
   const offer: Offer = {
     name,
