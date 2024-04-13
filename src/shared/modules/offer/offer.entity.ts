@@ -13,7 +13,7 @@ export interface OfferEntity extends defaultClasses.Base { }
 
 export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   @prop({ trim: true, required: true, type: () => String })
-  public name!: string;
+  public title!: string;
 
   @prop({ trim: true, type: () => String })
   public description!: string;
@@ -28,13 +28,13 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   public imagePreview!: string;
 
   @prop({ type: () => Array })
-  public placeImages!: string[];
+  public images!: string[];
 
   @prop({ type: () => Boolean })
   public isPremium!: boolean;
 
   @prop({ type: () => Boolean })
-  public isFavorited!: boolean;
+  public isFavorite!: boolean;
 
   @prop({ type: () => Number })
   public rating!: number;
@@ -43,21 +43,21 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
     type: () => String,
     enum: PlaceType
   })
-  public placeType!: PlaceType;
+  public type!: PlaceType;
 
   @prop({ type: () => Number })
-  public countOfRooms!: number;
+  public numberRooms!: number;
 
   @prop({ type: () => Number })
-  public countOfGuests!: number;
+  public numberGuests!: number;
 
   @prop({ type: () => Number })
-  public rentPrice!: number;
+  public price!: number;
 
   @prop({
     type: () => Array,
   })
-  public facilities!: FacilitiesType[];
+  public conveniences!: FacilitiesType[];
 
   @prop({
     type: () => Object,
@@ -66,7 +66,7 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   public author!: User;
 
   @prop({ default: 0, type: () => Number })
-  public countOfComments!: number;
+  public commentsCount!: number;
 
   @prop({ type: () => Object })
   public coordinates!: Coordinates;
