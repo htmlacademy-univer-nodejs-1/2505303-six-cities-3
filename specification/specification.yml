@@ -139,6 +139,8 @@ paths:
           $ref: "#/components/responses/unauthorizedError"
 
     put:
+      tags:
+        - offers
       summary: Добавить предложение в избранное
       description: Сервис предоставляет ресурс для добавления предложения в список избранных.
       security:
@@ -159,6 +161,8 @@ paths:
           description: Предложение не найдено
 
     delete:
+      tags:
+        - offers
       summary: Удалить предложение из избранного
       description: Сервис предоставляет ресурс для удаления предложения из списка избранных.
       security:
