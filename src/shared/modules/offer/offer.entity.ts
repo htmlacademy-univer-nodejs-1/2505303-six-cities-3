@@ -60,7 +60,7 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   public facilities!: FacilitiesType[];
 
   @prop({
-    type: () => String,
+    type: () => Object,
     required: true
   })
   public author!: User;
@@ -68,13 +68,13 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   @prop({ default: 0, type: () => Number })
   public countOfComments!: number;
 
-  @prop({ type: () => String })
+  @prop({ type: () => Object })
   public coordinates!: Coordinates;
 
   @prop({
     ref: UserEntity,
     required: true,
-    type: () => Number
+    type: () => String
   })
   public userId!: Ref<UserEntity>;
 
