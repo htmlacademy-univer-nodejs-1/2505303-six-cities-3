@@ -5,18 +5,18 @@ export class CreateOfferDto {
   public description: string;
   public postDate: Date;
   public city: string;
-  public imagePreview: string;
+  public previewImage: string;
   public images: string[];
   public isPremium: boolean;
   public isFavorite: boolean;
   public rating: number;
   public type: PlaceType;
-  public numberRooms: number;
-  public numberGuests: number;
+  public bedrooms: number;
+  public maxAdults: number;
   public price: number;
-  public conveniences: FacilitiesType[];
-  public author: User;
+  public goods: FacilitiesType[];
+  public host: User;
   public commentsCount: number;
-  public coordinates: Coordinates;
+  public location: Coordinates;
   public userId: string;
 }

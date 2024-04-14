@@ -16,7 +16,7 @@ tags:
     description: Действия с пользователем.
 
 paths:
-  /offers:
+  /offers/fetch:
     get:
       tags:
         - offers
@@ -43,14 +43,14 @@ paths:
         "400":
           description: Некорректный запрос
 
-  /offers/{offerId}:
+  /offer/fetch:
     get:
       tags:
         - offers
       summary: Получить детальную информацию по предложению
       description: Сервис предоставляет ресурс для получения детальной информации по одному предложению.
       parameters:
-        - name: offerId
+        - name: id
           in: path
           description: Идентификатор предложения
           required: true
@@ -68,39 +68,13 @@ paths:
         "404":
           description: Предложение не найдено
 
-  /offers/{offerId}/comments:
-    get:
-      tags:
-        - offers
-      summary: Получить список комментариев для предложения
-      description: Сервис предоставляет ресурс для получения списка комментариев для определенного предложения.
-      parameters:
-        - name: offerId
-          in: path
-          description: Идентификатор предложения
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Список комментариев успешно получен
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/сomment"
-        "400":
-          description: Некорректный запрос
-        "404":
-          description: Предложение не найдено
-
-  /offers/create:
+  /offer/post-offer:
     post:
       tags:
         - offers
       summary: Создать новое предложение
       description: Создать новое предложение по аренде.
+
       requestBody:
         required: true
         content:
@@ -117,15 +91,57 @@ paths:
         "400":
           description: Некорректный запрос
 
-  /favorite-offers:
+  /offer/edit-offer:
+    patch:
+      tags:
+        - offers
+      summary: Изменить предложение
+      description: Изменить предложение по аренде.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/editOffer"
+      responses:
+        "201":
+          description: Предложение успешно изменено
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/offer"
+        "400":
+          description: Некорректный запрос
+
+  /offer/delete-offer:
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение
+      description: Удаления предложения из списка.
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор предложения
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Предложение успешно удалено
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "404":
+          description: Предложение не найдено
+
+  /offer/fetch-favorite:
     get:
       tags:
         - offers
       summary: Получить список избранных предложений
       description: >
         Сервис предоставляет ресурс для получения предложений, добавленных в избранное.
-      security:
-        - apiKeyAuth: []
+
       responses:
         "200":
           description: Список избранных предложений успешно получен
@@ -138,15 +154,73 @@ paths:
         "401":
           $ref: "#/components/responses/unauthorizedError"
 
-    put:
+  /offer/fetch-premium:
+    get:
+      tags:
+        - offers
+      summary: Получить список премиальных предложений
+      description: >
+        Сервис предоставляет ресурс для получения премиум предложений.
+      responses:
+        "200":
+          description: Список премиум предложений успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/offer"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+
+  /offer/fetch-comments:
+    get:
+      tags:
+        - comments
+      summary: Получить список комментариев
+      description: Получить список комментариев по аренде отсортированный по дате публикации
+      responses:
+        "200":
+          description: Список комментариев успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/comment"
+        "404":
+          description: Комментарии не найдены
+
+  /offer/post-comment:
+    post:
+      tags:
+        - comments
+      summary: Создать новый комментарий
+      description: Создание нового комментарий .
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/comment"
+      responses:
+        "201":
+          description: Предложение успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/comment"
+        "400":
+          description: Некорректный запрос
+
+  /offer/post-favorite:
+    post:
       tags:
         - offers
       summary: Добавить предложение в избранное
       description: Сервис предоставляет ресурс для добавления предложения в список избранных.
-      security:
-        - apiKeyAuth: []
       parameters:
-        - name: offerId
+        - name: id
           in: path
           description: Идентификатор предложения
           required: true
@@ -160,15 +234,15 @@ paths:
         "404":
           description: Предложение не найдено
 
+  /offer/delete-favorite:
     delete:
       tags:
         - offers
       summary: Удалить предложение из избранного
       description: Сервис предоставляет ресурс для удаления предложения из списка избранных.
-      security:
-        - apiKeyAuth: []
+
       parameters:
-        - name: offerId
+        - name: id
           in: path
           description: Идентификатор предложения
           required: true
@@ -215,19 +289,19 @@ paths:
       summary: Авторизация пользователя
       description: Авторизует пользователя на основе логина и пароля
 
+  /users/logout:
+    delete:
+      tags:
+        - users
+      summary: Выход пользователя
+      description: Реализует выход пользователя из системы
+
+  /users/fetch-status:
     get:
       tags:
         - users
       summary: Проверка состояния пользователя
       description: Возвращает информацию по авторизованному пользователю
-
-  /users/{userId}/avatar:
-    post:
-      tags:
-        - users
-      summary: Загрузить изображение аватара
-      description: Загружает изображение аватара пользователя. Изображение
-        аватара должно быть в формате `png` или `jpg`.
 
 components:
   responses:
@@ -257,7 +331,7 @@ components:
             - Amsterdam
             - Hamburg
             - Dusseldorf
-        imagePreview:
+        previewImage:
           type: string
           format: uri
         images:
@@ -283,11 +357,11 @@ components:
             - house
             - room
             - hotel
-        numberRooms:
+        bedrooms:
           type: integer
           minimum: 1
           maximum: 8
-        numberGuests:
+        maxAdults:
           type: integer
           minimum: 1
           maximum: 10
@@ -295,7 +369,7 @@ components:
           type: number
           minimum: 100
           maximum: 100000
-        conveniences:
+        goods:
           type: array
           items:
             type: string
@@ -311,7 +385,7 @@ components:
           type: string
         commentsCount:
           type: integer
-        coordinates:
+        location:
           type: object
           properties:
             latitude:
@@ -323,19 +397,104 @@ components:
         - description
         - postDate
         - city
-        - imagePreview
+        - previewImage
         - images
         - isPremium
         - isFavorite
         - rating
         - type
-        - numberRooms
-        - numberGuests
+        - bedrooms
+        - maxAdults
         - price
-        - conveniences
+        - goods
         - author
         - commentsCount
-        - coordinates
+        - location
+
+    editOffer:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+        postDate:
+          type: string
+          format: date-time
+        city:
+          type: string
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+        previewImage:
+          type: string
+          format: uri
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          minItems: 6
+          maxItems: 6
+        isPremium:
+          type: boolean
+        isFavorite:
+          type: boolean
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          multipleOf: 0.1
+        type:
+          type: string
+          enum:
+            - apartment
+            - house
+            - room
+            - hotel
+        bedrooms:
+          type: integer
+          minimum: 1
+          maximum: 8
+        maxAdults:
+          type: integer
+          minimum: 1
+          maximum: 10
+        price:
+          type: number
+          minimum: 100
+          maximum: 100000
+        goods:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - Air conditioning
+              - Laptop friendly workspace
+              - Baby seat
+              - Washer
+              - Towels
+              - Fridge
+        authorId:
+          type: string
+        commentsCount:
+          type: integer
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
 
     offer:
       type: object
@@ -360,10 +519,10 @@ components:
             - Amsterdam
             - Hamburg
             - Dusseldorf
-        imagePreview:
+        previewImage:
           type: string
           format: uri
-        photosHousing:
+        images:
           type: array
           items:
             type: string
@@ -386,11 +545,11 @@ components:
             - house
             - room
             - hotel
-        numberRooms:
+        bedrooms:
           type: integer
           minimum: 1
           maximum: 8
-        numberGuests:
+        maxAdults:
           type: integer
           minimum: 1
           maximum: 10
@@ -398,7 +557,7 @@ components:
           type: number
           minimum: 100
           maximum: 100000
-        conveniences:
+        goods:
           type: array
           items:
             type: string
@@ -414,15 +573,16 @@ components:
         - title
         - description
         - city
-        - imagePreview
-        - photosHousing
+        - previewImage
+        - images
         - isPremium
         - rating
         - type
-        - numberRooms
-        - numberGuests
+        - bedrooms
+        - maxAdults
         - price
-        - conveniences
+        - goods
+
     offerDetail:
       allOf:
         - $ref: "#/components/schemas/offer"
@@ -435,6 +595,7 @@ components:
       required:
         - isFavorite
         - commentsCount
+
     createUser:
       type: object
       properties:
@@ -473,7 +634,7 @@ components:
           type: string
           example: example@mail.ru
 
-    сomment:
+    comment:
       type: object
       properties:
         text:
@@ -489,5 +650,5 @@ components:
           maximum: 5
       required:
         - text
-        - publicationDate
+        - postDate
         - rating

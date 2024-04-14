@@ -25,7 +25,7 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   public city!: string;
 
   @prop({ type: () => String })
-  public imagePreview!: string;
+  public previewImage!: string;
 
   @prop({ type: () => Array })
   public images!: string[];
@@ -46,10 +46,10 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   public type!: PlaceType;
 
   @prop({ type: () => Number })
-  public numberRooms!: number;
+  public bedrooms!: number;
 
   @prop({ type: () => Number })
-  public numberGuests!: number;
+  public maxAdults!: number;
 
   @prop({ type: () => Number })
   public price!: number;
@@ -57,19 +57,19 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   @prop({
     type: () => Array,
   })
-  public conveniences!: FacilitiesType[];
+  public goods!: FacilitiesType[];
 
   @prop({
     type: () => Object,
     required: true
   })
-  public author!: User;
+  public host!: User;
 
   @prop({ default: 0, type: () => Number })
   public commentsCount!: number;
 
   @prop({ type: () => Object })
-  public coordinates!: Coordinates;
+  public location!: Coordinates;
 
   @prop({
     ref: UserEntity,

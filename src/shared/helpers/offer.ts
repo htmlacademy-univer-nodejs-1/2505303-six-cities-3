@@ -41,17 +41,17 @@ export function createOffer(offerData: string): Offer {
     description,
     postDate: new Date(createdDate),
     city,
-    imagePreview,
+    previewImage: imagePreview,
     images: placeImages.split(';').map((image) => image),
     isPremium: JSON.parse(isPremium),
     isFavorite: JSON.parse(isFavorited),
     rating: Number.parseInt(rating, 10),
     type:
       PlaceType[placeType as 'apartment' | 'house' | 'room' | 'hotel'],
-    numberRooms: Number.parseInt(countOfRooms, 10),
-    numberGuests: Number.parseInt(countOfGuests, 10),
+    bedrooms: Number.parseInt(countOfRooms, 10),
+    maxAdults: Number.parseInt(countOfGuests, 10),
     price: Number.parseInt(rentPrice, 10),
-    conveniences: facilities
+    goods: facilities
       .split(';')
       .map(
         (facility) =>
@@ -67,7 +67,7 @@ export function createOffer(offerData: string): Offer {
           ]
       ),
 
-    author: {
+    host: {
       avatarPath,
       email,
       firstname,
@@ -76,7 +76,7 @@ export function createOffer(offerData: string): Offer {
       userType: UserType[userType as 'ordinary' | 'pro'],
     },
     commentsCount: Number.parseInt(countOfComments, 10),
-    coordinates: { latitude, longitude },
+    location: { latitude, longitude },
   };
   return offer;
 
