@@ -37,21 +37,21 @@ export function createOffer(offerData: string): Offer {
   ] = offerData.replace('\n', '').split('\t');
 
   const offer: Offer = {
-    title: name,
+    name,
     description,
     postDate: new Date(createdDate),
     city,
-    previewImage: imagePreview,
-    images: placeImages.split(';').map((image) => image),
+    imagePreview,
+    placeImages: placeImages.split(';').map((image) => image),
     isPremium: JSON.parse(isPremium),
-    isFavorite: JSON.parse(isFavorited),
+    isFavorited: JSON.parse(isFavorited),
     rating: Number.parseInt(rating, 10),
-    type:
+    placeType:
       PlaceType[placeType as 'apartment' | 'house' | 'room' | 'hotel'],
-    bedrooms: Number.parseInt(countOfRooms, 10),
-    maxAdults: Number.parseInt(countOfGuests, 10),
-    price: Number.parseInt(rentPrice, 10),
-    goods: facilities
+    countOfRooms: Number.parseInt(countOfRooms, 10),
+    countOfGuests: Number.parseInt(countOfGuests, 10),
+    rentPrice: Number.parseInt(rentPrice, 10),
+    facilities: facilities
       .split(';')
       .map(
         (facility) =>
@@ -67,7 +67,7 @@ export function createOffer(offerData: string): Offer {
           ]
       ),
 
-    host: {
+    author: {
       avatarPath,
       email,
       firstname,
@@ -75,8 +75,8 @@ export function createOffer(offerData: string): Offer {
       password,
       userType: UserType[userType as 'ordinary' | 'pro'],
     },
-    commentsCount: Number.parseInt(countOfComments, 10),
-    location: { latitude, longitude },
+    countOfComments: Number.parseInt(countOfComments, 10),
+    coordinates: { latitude, longitude },
   };
   return offer;
 

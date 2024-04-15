@@ -1,22 +1,22 @@
 import { Coordinates, FacilitiesType, PlaceType, User } from '../../../types';
 
 export class CreateOfferDto {
-  public title: string;
+  public name: string;
   public description: string;
   public postDate: Date;
   public city: string;
-  public previewImage: string;
-  public images: string[];
+  public imagePreview: string;
+  public placeImages: string[];
   public isPremium: boolean;
-  public isFavorite: boolean;
+  public isFavorited: boolean;
   public rating: number;
-  public type: PlaceType;
-  public bedrooms: number;
-  public maxAdults: number;
-  public price: number;
-  public goods: FacilitiesType[];
-  public host: User;
-  public commentsCount: number;
-  public location: Coordinates;
+  public placeType: PlaceType;
+  public countOfRooms: number;
+  public countOfGuests: number;
+  public rentPrice: number;
+  public facilities: FacilitiesType[];
+  public author: User;
+  public countOfComments: number;
+  public coordinates: Coordinates;
   public userId: string;
 }
