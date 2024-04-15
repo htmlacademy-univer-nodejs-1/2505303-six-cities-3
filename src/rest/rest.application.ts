@@ -36,3 +36,4 @@ export class RestApplication {
     this.logger.info('Init database completed');
   }
 }
+

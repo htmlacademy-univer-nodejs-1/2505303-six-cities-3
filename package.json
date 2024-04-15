@@ -9,7 +9,7 @@
   ],
   "main": "main.js",
   "scripts": {
-    "dev:rest": "tsx ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "dev:rest": "nodemon",
     "dev:cli": "tsx ./src/main.cli.ts",
     "start": "npm run build && node ./dist/main.js",
     "build": "npm run clean && npm run compile",
