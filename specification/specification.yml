@@ -1,0 +1,654 @@
+openapi: 3.1.0
+info:
+  title: API сервер для проекта «Шесть городов».
+  description: |-
+    * Список ресурсов и маршрутов сервера «Шесть городов».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+tags:
+  - name: offers
+    description: Действия с объявлениями.
+  - name: comments
+    description: Действия с комментариями.
+  - name: users
+    description: Действия с пользователем.
+
+paths:
+  /offers/fetch:
+    get:
+      tags:
+        - offers
+      summary: Получить список предложений по аренде
+      description: Получить список предложений по аренде отсортированный по дате публикации.
+      parameters:
+        - name: limit
+          in: query
+          description: Количество предложений для возврата (максимум 60)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 60
+            default: 60
+      responses:
+        "200":
+          description: Список предложений успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/offer"
+        "400":
+          description: Некорректный запрос
+
+  /offer/fetch:
+    get:
+      tags:
+        - offers
+      summary: Получить детальную информацию по предложению
+      description: Сервис предоставляет ресурс для получения детальной информации по одному предложению.
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор предложения
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Детальная информация по предложению успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/offerDetail"
+        "400":
+          description: Некорректный запрос
+        "404":
+          description: Предложение не найдено
+
+  /offer/post-offer:
+    post:
+      tags:
+        - offers
+      summary: Создать новое предложение
+      description: Создать новое предложение по аренде.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createOffer"
+      responses:
+        "201":
+          description: Предложение успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/offer"
+        "400":
+          description: Некорректный запрос
+
+  /offer/edit-offer:
+    patch:
+      tags:
+        - offers
+      summary: Изменить предложение
+      description: Изменить предложение по аренде.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/editOffer"
+      responses:
+        "201":
+          description: Предложение успешно изменено
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/offer"
+        "400":
+          description: Некорректный запрос
+
+  /offer/delete-offer:
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение
+      description: Удаления предложения из списка.
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор предложения
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Предложение успешно удалено
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "404":
+          description: Предложение не найдено
+
+  /offer/fetch-favorite:
+    get:
+      tags:
+        - offers
+      summary: Получить список избранных предложений
+      description: >
+        Сервис предоставляет ресурс для получения предложений, добавленных в избранное.
+
+      responses:
+        "200":
+          description: Список избранных предложений успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/offer"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+
+  /offer/fetch-premium:
+    get:
+      tags:
+        - offers
+      summary: Получить список премиальных предложений
+      description: >
+        Сервис предоставляет ресурс для получения премиум предложений.
+      responses:
+        "200":
+          description: Список премиум предложений успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/offer"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+
+  /offer/fetch-comments:
+    get:
+      tags:
+        - comments
+      summary: Получить список комментариев
+      description: Получить список комментариев по аренде отсортированный по дате публикации
+      responses:
+        "200":
+          description: Список комментариев успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/comment"
+        "404":
+          description: Комментарии не найдены
+
+  /offer/post-comment:
+    post:
+      tags:
+        - comments
+      summary: Создать новый комментарий
+      description: Создание нового комментарий .
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/comment"
+      responses:
+        "201":
+          description: Предложение успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/comment"
+        "400":
+          description: Некорректный запрос
+
+  /offer/post-favorite:
+    post:
+      tags:
+        - offers
+      summary: Добавить предложение в избранное
+      description: Сервис предоставляет ресурс для добавления предложения в список избранных.
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор предложения
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Предложение успешно добавлено в избранное
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "404":
+          description: Предложение не найдено
+
+  /offer/delete-favorite:
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение из избранного
+      description: Сервис предоставляет ресурс для удаления предложения из списка избранных.
+
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор предложения
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Предложение успешно удалено из избранного
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "404":
+          description: Предложение не найдено
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя.
+
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createUser"
+        required: true
+
+      responses:
+        "201":
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+
+        "409":
+          description: Пользователь с таким email уже существует.
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля
+
+  /users/logout:
+    delete:
+      tags:
+        - users
+      summary: Выход пользователя
+      description: Реализует выход пользователя из системы
+
+  /users/fetch-status:
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя
+      description: Возвращает информацию по авторизованному пользователю
+
+components:
+  responses:
+    unauthorizedError:
+      description: Пользователь не авторизован
+  schemas:
+    createOffer:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+        postDate:
+          type: string
+          format: date-time
+        city:
+          type: string
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+        previewImage:
+          type: string
+          format: uri
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          minItems: 6
+          maxItems: 6
+        isPremium:
+          type: boolean
+        isFavorite:
+          type: boolean
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          multipleOf: 0.1
+        type:
+          type: string
+          enum:
+            - apartment
+            - house
+            - room
+            - hotel
+        bedrooms:
+          type: integer
+          minimum: 1
+          maximum: 8
+        maxAdults:
+          type: integer
+          minimum: 1
+          maximum: 10
+        price:
+          type: number
+          minimum: 100
+          maximum: 100000
+        goods:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - Air conditioning
+              - Laptop friendly workspace
+              - Baby seat
+              - Washer
+              - Towels
+              - Fridge
+        authorId:
+          type: string
+        commentsCount:
+          type: integer
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+      required:
+        - title
+        - description
+        - postDate
+        - city
+        - previewImage
+        - images
+        - isPremium
+        - isFavorite
+        - rating
+        - type
+        - bedrooms
+        - maxAdults
+        - price
+        - goods
+        - author
+        - commentsCount
+        - location
+
+    editOffer:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+        postDate:
+          type: string
+          format: date-time
+        city:
+          type: string
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+        previewImage:
+          type: string
+          format: uri
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          minItems: 6
+          maxItems: 6
+        isPremium:
+          type: boolean
+        isFavorite:
+          type: boolean
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          multipleOf: 0.1
+        type:
+          type: string
+          enum:
+            - apartment
+            - house
+            - room
+            - hotel
+        bedrooms:
+          type: integer
+          minimum: 1
+          maximum: 8
+        maxAdults:
+          type: integer
+          minimum: 1
+          maximum: 10
+        price:
+          type: number
+          minimum: 100
+          maximum: 100000
+        goods:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - Air conditioning
+              - Laptop friendly workspace
+              - Baby seat
+              - Washer
+              - Towels
+              - Fridge
+        authorId:
+          type: string
+        commentsCount:
+          type: integer
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+
+    offer:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+        postDate:
+          type: string
+          format: date-time
+        city:
+          type: string
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+        previewImage:
+          type: string
+          format: uri
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          minItems: 6
+          maxItems: 6
+        isPremium:
+          type: boolean
+        isFavorite:
+          type: boolean
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          multipleOf: 0.1
+        type:
+          type: string
+          enum:
+            - apartment
+            - house
+            - room
+            - hotel
+        bedrooms:
+          type: integer
+          minimum: 1
+          maximum: 8
+        maxAdults:
+          type: integer
+          minimum: 1
+          maximum: 10
+        price:
+          type: number
+          minimum: 100
+          maximum: 100000
+        goods:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - Air conditioning
+              - Laptop friendly workspace
+              - Baby seat
+              - Washer
+              - Towels
+              - Fridge
+      required:
+        - title
+        - description
+        - city
+        - previewImage
+        - images
+        - isPremium
+        - rating
+        - type
+        - bedrooms
+        - maxAdults
+        - price
+        - goods
+
+    offerDetail:
+      allOf:
+        - $ref: "#/components/schemas/offer"
+        - type: object
+          properties:
+            isFavorite:
+              type: boolean
+            commentsCount:
+              type: integer
+      required:
+        - isFavorite
+        - commentsCount
+
+    createUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: example@mail.ru
+        firstname:
+          type: string
+          minLength: 1
+          maxLength: 15
+          example: Rey
+        password:
+          type: string
+          minLength: 6
+          maxLength: 12
+          example: 123456
+        userType:
+          type: string
+          enum:
+            - regular
+            - pro
+      required:
+        - name
+        - email
+        - password
+        - userType
+
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        email:
+          type: string
+          example: example@mail.ru
+
+    comment:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 5
+          maxLength: 1024
+        postDate:
+          type: string
+          format: date-time
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+      required:
+        - text
+        - postDate
+        - rating

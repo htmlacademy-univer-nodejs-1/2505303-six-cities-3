@@ -41,30 +41,30 @@ export class ImportCommand implements Command {
 
   private async saveOffer(offer: Offer) {
     const user = await this.userService.findOrCreate({
-      ...offer.author,
+      ...offer.host,
       password: DEFAULT_USER_PASSWORD
     }, this.salt);
 
 
     await this.offerService.create({
       userId: user.id,
-      name: offer.name,
+      title: offer.title,
       description: offer.description,
       postDate: offer.postDate,
       city: offer.city,
-      imagePreview: offer.imagePreview,
-      placeImages: offer.placeImages,
+      previewImage: offer.previewImage,
+      images: offer.images,
       isPremium: offer.isPremium,
-      isFavorited: offer.isFavorited,
+      isFavorite: offer.isFavorite,
       rating: offer.rating,
-      placeType: offer.placeType,
-      countOfRooms: offer.countOfRooms,
-      countOfGuests: offer.countOfGuests,
-      rentPrice: offer.rentPrice,
-      facilities: offer.facilities,
-      author: offer.author,
-      countOfComments: offer.countOfComments,
-      coordinates: offer.coordinates,
+      type: offer.type,
+      bedrooms: offer.bedrooms,
+      maxAdults: offer.maxAdults,
+      price: offer.price,
+      goods: offer.goods,
+      host: offer.host,
+      commentsCount: offer.commentsCount,
+      location: offer.location,
     });
 
   }

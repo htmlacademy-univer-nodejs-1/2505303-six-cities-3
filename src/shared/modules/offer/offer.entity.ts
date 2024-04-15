@@ -13,7 +13,7 @@ export interface OfferEntity extends defaultClasses.Base { }
 
 export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   @prop({ trim: true, required: true, type: () => String })
-  public name!: string;
+  public title!: string;
 
   @prop({ trim: true, type: () => String })
   public description!: string;
@@ -25,16 +25,16 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   public city!: string;
 
   @prop({ type: () => String })
-  public imagePreview!: string;
+  public previewImage!: string;
 
   @prop({ type: () => Array })
-  public placeImages!: string[];
+  public images!: string[];
 
   @prop({ type: () => Boolean })
   public isPremium!: boolean;
 
   @prop({ type: () => Boolean })
-  public isFavorited!: boolean;
+  public isFavorite!: boolean;
 
   @prop({ type: () => Number })
   public rating!: number;
@@ -43,38 +43,38 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
     type: () => String,
     enum: PlaceType
   })
-  public placeType!: PlaceType;
+  public type!: PlaceType;
 
   @prop({ type: () => Number })
-  public countOfRooms!: number;
+  public bedrooms!: number;
 
   @prop({ type: () => Number })
-  public countOfGuests!: number;
+  public maxAdults!: number;
 
   @prop({ type: () => Number })
-  public rentPrice!: number;
+  public price!: number;
 
   @prop({
     type: () => Array,
   })
-  public facilities!: FacilitiesType[];
+  public goods!: FacilitiesType[];
 
   @prop({
-    type: () => String,
+    type: () => Object,
     required: true
   })
-  public author!: User;
+  public host!: User;
 
   @prop({ default: 0, type: () => Number })
-  public countOfComments!: number;
+  public commentsCount!: number;
 
-  @prop({ type: () => String })
-  public coordinates!: Coordinates;
+  @prop({ type: () => Object })
+  public location!: Coordinates;
 
   @prop({
     ref: UserEntity,
     required: true,
-    type: () => Number
+    type: () => String
   })
   public userId!: Ref<UserEntity>;
 
