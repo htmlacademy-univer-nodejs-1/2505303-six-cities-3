@@ -8,11 +8,12 @@ import { CreateOfferDto } from './dto/create-offer.dto';
 import { UpdateOfferDto } from './dto/update-offer.dto';
 import { DEFAULT_OFFER_COUNT } from './offer.constant';
 
+
 @injectable()
 export class DefaultOfferService implements OfferService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
-    @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>
+    @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
   ) { }
 
   public async find(): Promise<DocumentType<OfferEntity>[]> {
@@ -34,6 +35,7 @@ export class DefaultOfferService implements OfferService {
       .populate(['userId'])
       .exec();
   }
+
 
   public async findByCategoryId(categoryId: string, count?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? DEFAULT_OFFER_COUNT;
