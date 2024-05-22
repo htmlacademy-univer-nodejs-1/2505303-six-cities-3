@@ -2,8 +2,9 @@ import { CreateOfferDto } from './dto/create-offer.dto';
 import { DocumentType } from '@typegoose/typegoose';
 import { OfferEntity } from './offer.entity';
 import { UpdateOfferDto } from './dto/update-offer.dto';
+import { DocumentExists } from '../../types';
 
-export interface OfferService {
+export interface OfferService extends DocumentExists{
   create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>>;
   findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   find(): Promise<DocumentType<OfferEntity>[]>;

@@ -7,4 +7,6 @@ export * from './user.type';
 export * from './mock-server-data.type';
 export * from './component.enum';
 export * from './offer-coordinates.type';
-export * from './sort-type.enum.js';
+export * from './sort-type.enum';
+export * from './city.type';
+export * from './document-exists.interface';
