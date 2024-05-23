@@ -1,4 +1,4 @@
-import { IsArray, IsDateString, IsEnum, IsInt, IsMongoId, Max, MaxLength, Min, MinLength,ArrayMaxSize,ArrayMinSize,IsBoolean,IsObject } from 'class-validator';
+import { IsArray, IsDateString, IsEnum, IsInt, Max, MaxLength, Min, MinLength,ArrayMaxSize,ArrayMinSize,IsBoolean,IsObject } from 'class-validator';
 import { CityType, Coordinates, FacilitiesType, PlaceType, User } from '../../../types';
 import { OfferValidationMessage } from './offer.messages';
 
@@ -59,6 +59,5 @@ export class CreateOfferDto {
  @IsObject({message: OfferValidationMessage.object.invalidFormat})
  public location: Coordinates;
 
-  @IsMongoId({ message: OfferValidationMessage.userId.invalidId })
  public userId: string;
 }
