@@ -11,3 +11,4 @@ export * from './middleware/middleware.interface';
 export * from './middleware/validate-objectid.middleware';
 export * from './middleware/validate-dto.middleware';
 export * from './middleware/document-exists.middleware';
+export * from './middleware/upload-file.middleware';
