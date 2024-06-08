@@ -1,9 +1,10 @@
-import { Expose, Type } from 'class-transformer';
-import { UserRdo } from '../../user/rdo/user.rdo';
-import { PlaceType,FacilitiesType,User,Coordinates } from '../../../types';
+import { Expose, Type,Transform } from 'class-transformer';
+import { UserRdo } from '../../user/rdo/user.rdo.js';
+import { OfferType,OfferGood,User,Coordinates } from '../../../types/index.js';
 
 export class OfferRdo {
-  @Expose()
+  @Expose({ name: '_id' })
+  @Transform(({obj}) => obj._id.toString())
   public id: string;
 
   @Expose()
@@ -16,6 +17,20 @@ export class OfferRdo {
   public postDate: string;
 
   @Expose()
+
+  @Expose()
+  @Transform(({ obj, value }) => {
+    const { latitude, longitude } = obj;
+    const result = {
+      name: value,
+      location: {
+        latitude,
+        longitude,
+      },
+    };
+
+    return result;
+  })
   public city: string;
 
   @Expose()
@@ -34,7 +49,7 @@ export class OfferRdo {
   public rating: number;
 
   @Expose()
-  public type: PlaceType;
+  public type: OfferType;
 
   @Expose()
   public bedrooms: number;
@@ -46,7 +61,7 @@ export class OfferRdo {
   public price: number;
 
   @Expose()
-  public goods: FacilitiesType[];
+  public goods: OfferGood[];
 
   @Expose()
   public host: User;
@@ -55,6 +70,14 @@ export class OfferRdo {
   public commentsCount: number;
 
   @Expose()
+  @Transform(({ obj }) => {
+    const { latitude, longitude } = obj;
+
+    return {
+      latitude,
+      longitude,
+    };
+  })
   public location: Coordinates;
 
   @Expose({ name: 'userId'})

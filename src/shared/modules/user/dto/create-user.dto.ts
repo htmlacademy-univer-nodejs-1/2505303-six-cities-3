@@ -1,19 +1,22 @@
-import { UserType } from '../../../types';
-import { IsEmail, IsEnum, IsString, Length } from 'class-validator';
-import { CreateUserMessages } from './create-user.messages';
+
+import { IsEmail, IsString, Length,IsOptional,IsUrl } from 'class-validator';
+import { UserMessages } from './user.messages.js';
 
 export class CreateUserDto {
-  @IsEmail({}, { message: CreateUserMessages.email.invalidFormat })
+  @IsEmail({}, { message: UserMessages.email.invalidFormat })
   public email: string;
 
-  @IsString({ message: CreateUserMessages.name.invalidFormat })
-  @Length(1, 15, { message: CreateUserMessages.name.lengthField })
+  @IsString({ message: UserMessages.name.invalidFormat })
+  @Length(1, 15, { message: UserMessages.name.lengthField })
   public name: string;
 
-  @IsString({ message: CreateUserMessages.password.invalidFormat })
-  @Length(6, 12, { message: CreateUserMessages.password.lengthField })
+  @IsOptional()
+  @IsUrl({}, { message: UserMessages.avatarUrl.invalidFormat })
+  public avatarUrl?: string;
+
+  @IsString({ message: UserMessages.password.invalidFormat })
+  @Length(6, 12, { message: UserMessages.password.lengthField })
   public password: string;
 
-  @IsEnum(UserType, { message: CreateUserMessages.type.invalid })
-  public userType: UserType;
+  public isPro: string;
 }

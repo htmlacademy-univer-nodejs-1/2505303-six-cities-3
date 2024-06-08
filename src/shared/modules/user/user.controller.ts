@@ -1,19 +1,19 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { BaseController, HttpError, HttpMethod, UploadFileMiddleware,ValidateDtoMiddleware,ValidateObjectIdMiddleware, } from '../../libs/rest';
-import { Logger } from '../../libs/logger';
-import { Component } from '../../types';
-import { CreateUserRequest } from './create-user-request.type';
-import { UserService } from './user-service.interface';
-import { Config, RestSchema } from '../../libs/config';
-import { fillDTO } from '../../helpers';
-import { UserRdo } from './rdo/user.rdo';
-import { LoginUserRequest } from './login-user-request.type';
-import { CreateUserDto } from './dto/create-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
-import { AuthService } from '../auth';
-import { LoggedUserRdo } from './rdo/logged-user.rdo';
+import { BaseController, HttpError, HttpMethod, UploadFileMiddleware,ValidateDtoMiddleware,ValidateObjectIdMiddleware,PrivateRouteMiddleware } from '../../libs/rest/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { Component } from '../../types/index.js';
+import { LoginUserRequest, CheckUserRequest, RegisterUserRequest } from './user-requests.type.js';
+import { UserService } from './user-service.interface.js';
+import { Config, RestSchema } from '../../libs/config/index.js';
+import { fillDTO } from '../../helpers/index.js';
+import { UserRdo } from './rdo/user.rdo.js';
+import { CreateUserDto } from './dto/create-user.dto.js';
+import { LoginUserDto } from './dto/login-user.dto.js';
+import { AuthService } from '../auth/index.js';
+import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
+import { UploadUserAvatarRdo } from './rdo/upload-user-avatar.rdo.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -39,6 +39,7 @@ export class UserController extends BaseController {
       handler: this.login,
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
     });
+
     this.addRoute({
       path: '/:userId/avatar',
       method: HttpMethod.Post,
@@ -48,15 +49,32 @@ export class UserController extends BaseController {
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]
     });
+    this.addRoute({ path: '/logout', method: HttpMethod.Delete, handler: this.logout });
     this.addRoute({
       path: '/login',
       method: HttpMethod.Get,
       handler: this.checkAuthenticate,
+      middlewares: [
+        new PrivateRouteMiddleware()
+      ]
     });
   }
 
+  public async checkAuthenticate(
+    { tokenPayload }: CheckUserRequest,
+    res: Response
+  ): Promise<void> {
+    const existingUser = await this.userService.findByEmail(tokenPayload.email);
+
+    if (!existingUser) {
+      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Unauthorized');
+    }
+
+    this.ok(res, fillDTO(UserRdo, existingUser));
+  }
+
   public async create(
-    { body }: CreateUserRequest,
+    { body }: RegisterUserRequest,
     res: Response,
   ): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
@@ -83,23 +101,18 @@ export class UserController extends BaseController {
     this.ok(res, Object.assign(responseData, { token }));
   }
 
-  public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path
-    });
+
+  public async logout(_req: Request, res: Response): Promise<void> {
+    this.ok(res, null);
   }
 
-  public async checkAuthenticate({ tokenPayload: { email }}: Request, res: Response) {
-    const foundedUser = await this.userService.findByEmail(email);
 
-    if (! foundedUser) {
-      throw new HttpError(
-        StatusCodes.UNAUTHORIZED,
-        'Unauthorized',
-        'UserController'
-      );
-    }
-
-    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+  public async uploadAvatar({ params, file }: Request, res: Response) {
+    const { userId } = params;
+    const uploadFile = { avatarUrl: file?.filename };
+    await this.userService.updateById(userId, uploadFile);
+    this.created(res, fillDTO(UploadUserAvatarRdo, { filepath: uploadFile.avatarUrl }));
   }
+
+
 }

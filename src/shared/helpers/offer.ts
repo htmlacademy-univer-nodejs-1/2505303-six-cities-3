@@ -1,84 +1,55 @@
-import {
-  Offer,
-  PlaceType,
-  FacilitiesType,
-  UserType,
-} from '../types';
+import { City, Offer, OfferGood, OfferType, UserType } from '../types/index.js';
 
-export function createOffer(offerData: string): Offer {
-
-  if (!offerData.trim().length) {
-    throw new Error('Can\'t import data from file');
-  }
+export const createOffer = (offerData: string): Offer => {
   const [
-    name,
+    title,
     description,
-    createdDate,
+    publicationDate,
     city,
-    imagePreview,
-    placeImages,
+    previewImage,
+    images,
     isPremium,
-    isFavorited,
+    isFavorite,
     rating,
-    placeType,
-    countOfRooms,
-    countOfGuests,
-    rentPrice,
-    facilities,
-    avatarPath,
-    email,
-    firstname,
-    lastname,
-    password,
-    userType,
-    countOfComments,
-    latitude,
-    longitude,
+    type,
+    bedrooms,
+    maxAdults,
+    price,
+    goods,
+    author,
+    commentsCount,
+    location,
   ] = offerData.replace('\n', '').split('\t');
 
-  const offer: Offer = {
-    title: name,
+  const [userName, userEmail, userAvatar, userPassword, userType] =
+    author.split(',');
+  const [latitude, longitude] = location.split(' ');
+
+  return {
+    title,
     description,
-    postDate: new Date(createdDate),
-    city,
-    previewImage: imagePreview,
-    images: placeImages.split(';').map((image) => image),
-    isPremium: JSON.parse(isPremium),
-    isFavorite: JSON.parse(isFavorited),
-    rating: Number.parseInt(rating, 10),
-    type:
-      PlaceType[placeType as 'apartment' | 'house' | 'room' | 'hotel'],
-    bedrooms: Number.parseInt(countOfRooms, 10),
-    maxAdults: Number.parseInt(countOfGuests, 10),
-    price: Number.parseInt(rentPrice, 10),
-    goods: facilities
-      .split(';')
-      .map(
-        (facility) =>
-          FacilitiesType[
-          facility as
-          | 'Breakfast'
-          | 'Air conditioning'
-          | 'Laptop friendly workspace'
-          | 'Baby seat'
-          | 'Washer'
-          | 'Towels'
-          | 'Fridge'
-          ]
-      ),
-
+    publicationDate: new Date(publicationDate),
+    city: city as City,
+    previewImage,
+    images: images.split(','),
+    isPremium: isPremium === 'true',
+    isFavorite: isFavorite === 'true',
+    rating: Number(rating),
+    type: type as OfferType,
+    bedrooms: Number(bedrooms),
+    maxAdults: Number(maxAdults),
+    price: Number(price),
+    goods: goods.split(',').filter((i) => i) as OfferGood[],
     host: {
-      avatarPath,
-      email,
-      firstname,
-      lastname,
-      password,
-      userType: UserType[userType as 'ordinary' | 'pro'],
+      name: userName,
+      email: userEmail,
+      password: userPassword,
+      avatarUrl: userAvatar,
+      isPro: userType as UserType,
     },
-    commentsCount: Number.parseInt(countOfComments, 10),
-    location: { latitude, longitude },
+    commentsCount: Number(commentsCount),
+
+    latitude: Number(latitude),
+    longitude: Number(longitude),
   };
-  return offer;
-
-
-}
+};

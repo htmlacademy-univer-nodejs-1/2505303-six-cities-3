@@ -14,6 +14,7 @@ export type RestSchema = {
   UPLOAD_DIRECTORY: string;
   JWT_SECRET: string;
   HOST: string;
+  STATIC_DIRECTORY_PATH: string;
 }
 
 export const configRestSchema = convict<RestSchema>({

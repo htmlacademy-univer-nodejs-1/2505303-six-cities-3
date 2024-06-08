@@ -8,7 +8,7 @@ export class LoggedUserRdo {
   public email: string;
 
   @Expose()
-  public avatarPath: string;
+  public avatarUrl: string;
 
   @Expose()
   public name: string;

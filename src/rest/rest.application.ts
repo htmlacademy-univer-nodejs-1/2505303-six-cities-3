@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import express, { Express } from 'express';
 import cors from 'cors';
-import { Logger } from '../shared/libs/logger';
-import { Config, RestSchema } from '../shared/libs/config';
-import { Component } from '../shared/types';
-import { DatabaseClient } from '../shared/libs/database-client';
-import { getFullServerPath, getMongoURI } from '../shared/helpers';
-import { Controller, ExceptionFilter, ParseTokenMiddleware } from '../shared/libs/rest';
-import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from './rest.constant';
+import { Logger } from '../shared/libs/logger/index.js';
+import { Config, RestSchema } from '../shared/libs/config/index.js';
+import { Component } from '../shared/types/index.js';
+import { DatabaseClient } from '../shared/libs/database-client/index.js';
+import { getFullServerPath, getMongoURI } from '../shared/helpers/index.js';
+import { Controller, ExceptionFilter, ParseTokenMiddleware } from '../shared/libs/rest/index.js';
+import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from './rest.constant.js';
 
 @injectable()
 export class RestApplication {
@@ -20,7 +20,7 @@ export class RestApplication {
     @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter,
     @inject(Component.UserController) private readonly userController: Controller,
     @inject(Component.OfferController) private readonly offerController: Controller,
-    @inject(Component.CommentController) private readonly commentController: Controller,
+    @inject(Component.FavoriteController) private readonly favoriteController: Controller,
     @inject(Component.AuthExceptionFilter) private readonly authExceptionFilter: ExceptionFilter,
     @inject(Component.HttpExceptionFilter) private readonly httpExceptionFilter: ExceptionFilter,
     @inject(Component.ValidationExceptionFilter) private readonly validationExceptionFilter: ExceptionFilter,
@@ -49,7 +49,7 @@ export class RestApplication {
   private async _initControllers() {
     this.server.use('/users', this.userController.router);
     this.server.use('/offers', this.offerController.router);
-    this.server.use('/comments', this.commentController.router);
+    this.server.use('/favorites', this.favoriteController.router);
   }
 
   private async _initMiddleware() {
@@ -101,6 +101,6 @@ export class RestApplication {
 
     this.logger.info('Try to init server...');
     await this._initServer();
-    this.logger.info(`🚀 Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
+    this.logger.info(`Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 }
