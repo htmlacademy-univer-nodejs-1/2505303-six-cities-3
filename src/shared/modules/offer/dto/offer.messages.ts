@@ -1,52 +1,58 @@
 export const OfferValidationMessage = {
   title: {
-    minLength: 'Minimum title length must be 10',
-    maxLength: 'Maximum title length must be 100',
+    minLength: 'Длина заголовка не может быть меньше 10 символов',
+    maxLength: 'Длина заголовка не может быть больще 100 символов',
   },
   description: {
-    minLength: 'Minimum description length must be 20',
-    maxLength: 'Maximum description length must be 1024',
+    minLength: 'Длина описания не может быть меньше 20 символов',
+    maxLength: 'Длина описания не может быть меньше 1024 символов',
   },
   postDate: {
-    invalidFormat: 'postDate must be a valid ISO date',
+    invalidFormat: 'Неверный формат даты',
   },
-  city:{
-    invalidCity: 'city must be one of six'
+  city: {
+    invalid: 'Неверный город',
   },
-  image: {
-    maxLength: 'Too short for field «image»',
-    imagesCount: 'Images count must be equal 6'
+  previewImage: {
+    invalid: 'Неверная ссылка на превью',
   },
-  type: {
-    invalid: 'type must be apartment, house, room or hotel',
+  images: {
+    someImageInvalid: 'Невалидные ссылки в массиве',
+    invalidLength: 'Фотографий должно быть 6',
   },
-  price: {
-    invalidFormat: 'Price must be an integer',
-    minValue: 'Minimum price is 100',
-    maxValue: 'Maximum price is 100000',
+  isPremium: {
+    invalid: 'Флаг премиум не булевое значение',
   },
-  bool:{
-    invalid:'value must be a boolean'
-  },
-  bedrooms: {
-    minValue: 'Minimum bedrooms is 1',
-    maxValue: 'Maximum bedrooms is 8',
+  isFavorite: {
+    invalid: 'Флаг избранное не булевое значение',
   },
   rating: {
-    minValue: 'Minimum bedrooms is 1',
-    maxValue: 'Maximum bedrooms is 5',
+    invalid: 'Рейтинг не число',
+    invalidDecimal: 'Неверный диапазон рейтинга'
   },
-  Adults: {
-    minValue: 'Minimum Adults is 1',
-    maxValue: 'Maximum Adults is 8',
+  price: {
+    invalid: 'Цена не число',
+    invalidDecimal: 'Неверный диапазон цен'
   },
-  userId: {
-    invalidId: 'userId field must be a valid id',
+  type: {
+    invalid: 'Неверный тип предложения'
   },
-  goods:{
-    invalidFormat: 'Value must be Array'
+  bedrooms: {
+    invalid: 'Количество комнат не число',
+    invalidDecimal: 'Неверный диапазон количества комнат'
   },
-  object:{
-    invalidFormat: 'Value must be Object'
+  maxAdults: {
+    invalid: 'Количество людей не число',
+    invalidDecimal: 'Неверный диапазон количества гостей'
+  },
+  goods: {
+    invalid: 'Неверный тип товаров'
+  },
+  host: { invalid: 'Такой пользователь не существует'},
+  latitude: {
+    invalid: 'Но долгота'
+  },
+  longitude: {
+    invalid: 'Но широта'
   }
 } as const;

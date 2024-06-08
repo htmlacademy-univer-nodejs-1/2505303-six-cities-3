@@ -1,93 +1,97 @@
 {
   "api": {
     "name": [
-      "Rest House",
-      "Big modern House",
-      "Room",
-      "Apartaments Room",
-      "Chill Zone"
+      "Home",
+      "House",
+      "Apartment",
+      "Barrack",
+      "Shelter",
+      "Basement",
+      "Attic"
     ],
     "description": [
-      "description1",
-      "description12",
-      "description123",
-      "description1234",
-      "description112323"
+      "Spacious 2-bedroom home available for immediate rent. Includes a large kitchen and backyard.",
+      "Charming house in the city center, perfect for families. Close to schools and parks.",
+      "Modern apartment with a great view of the city. Includes a gym and pool access.",
+      "Affordable barrack with basic amenities. Ideal for students or single workers.",
+      "Cozy shelter in a quiet neighborhood. Pets are welcome.",
+      "Basement with private entrance available for rent. Includes utilities and internet.",
+      "Attic room available in a shared house. Perfect for students or young professionals.",
+      "Fully furnished property available for short-term rent. Ideal for vacation or business trips."
     ],
     "cities": [
       "Paris",
+      "Cologne",
+      "Brussels",
       "Amsterdam",
       "Hamburg",
-      "Moskiw",
-      "Brussels",
-      "Ekaterinburg",
-      "London"
+      "Dusseldorf"
     ],
-    "imagesPreview": [
+    "previewImages": [
       "image1-preview.jpg",
       "image2-preview.jpg",
       "image3-preview.jpg",
       "image4-preview.jpg",
-      "image5-preview.jpg"
+      "image5-preview.jpg",
+      "image6-preview.jpg",
+      "image7-preview.jpg"
     ],
-    "placesImages": [
-      "place1.jpg",
-      "place2.jpg",
-      "place3.jpg",
-      "place4.jpg",
-      "place5.jpg",
-      "place6.jpg",
-      "place7.jpg",
-      "place8.jpg",
-      "place9.jpg"
+    "images": [
+      "photo-1.jpg",
+      "photo-2.jpg",
+      "photo-3.jpg",
+      "photo-4.jpg",
+      "photo-5.jpg",
+      "photo-6.jpg",
+      "photo-7.jpg",
+      "photo-8.jpg"
     ],
-    "facilities": [
-      "Breakfast",
+    "features": [
       "Air conditioning",
+      "Breakfast",
       "Laptop friendly workspace",
       "Baby seat",
       "Washer",
       "Towels",
       "Fridge"
     ],
-    "avatars": [
-      "user1.jpg",
-      "John.jpg",
-      "avatar31.jpg",
-      "Casual.jpg",
-      "network.jpg"
-    ],
-    "emails": [
-      "email1@mail.ru",
-      "email2@ya.ru",
-      "email3@mail.ru",
-      "email4@gmail.com",
-      "email5@mail.ru"
-    ],
-    "author": [
+    "authors": [
+      "John Doe",
       "Jane Doe",
       "Alice Smith",
-      "John Doe",
-      "Bob Smith",
-      "Alan Smith"
+      "Bob Johnson",
+      "David Brown",
+      "Emily Davis",
+      "Michael Wilson",
+      "Olivia Miller"
+    ],
+    "avatars": ["default-avatar.png"],
+    "emails": [
+      "mail1@hotmail.com",
+      "mail2@hotmail.com",
+      "mail3@hotmail.com",
+      "mail4@hotmail.com",
+      "mail5@hotmail.com",
+      "mail6@hotmail.com",
+      "mail17@hotmail.com",
+      "mail18@hotmail.com"
     ],
     "passwords": [
-      "password1",
-      "123123",
+      "zxcvbn",
+      "qwe123",
+      "123456",
       "password",
-      "qwerty123",
-      "qwerty"
-    ],
-    "userTypes": [
-      "ordinary",
-      "pro"
+      "qwerty",
+      "12345678",
+      "1234567",
+      "1234567890"
     ],
     "coordinates": [
+      "48.85661 2.351499",
+      "50.938361 6.959974",
+      "50.846557 4.351697",
       "52.370216 4.895168",
       "53.550341 10.000654",
-      "48.856611 2.351499",
-      "50.937531 6.960279",
-      "50.846557 4.351697",
       "51.225402 6.776314"
     ]
   }

@@ -6,7 +6,7 @@ import {
   VersionCommand,
   ImportCommand,
   GenerateCommand,
-} from './cli';
+} from './cli/index.js';
 
 function bootstrap() {
   const cliApplication = new CLIApplication();

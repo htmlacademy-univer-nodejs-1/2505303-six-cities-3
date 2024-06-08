@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
-import { DEFAULT_STATIC_IMAGES, STATIC_RESOURCE_FIELDS } from './path-transformer.constant';
-import { Component } from '../../../types';
-import { Logger } from '../../logger';
-import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from '../../../../rest';
-import { getFullServerPath } from '../../../helpers';
-import { Config, RestSchema } from '../../config';
+import { DEFAULT_STATIC_IMAGES, STATIC_RESOURCE_FIELDS } from './path-transformer.constant.js';
+import { Component } from '../../../types/index.js';
+import { Logger } from '../../logger/index.js';
+import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from '../../../../rest/index.js';
+import { getFullServerPath } from '../../../helpers/index.js';
+import { Config, RestSchema } from '../../config/index.js';
 
 function isObject(value: unknown): value is Record<string, object> {
   return typeof value === 'object' && value !== null;

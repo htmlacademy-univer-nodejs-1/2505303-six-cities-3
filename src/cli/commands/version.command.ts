@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { Command } from './command.interface';
+import { Command } from './command.interface.js';
 import { version } from '../../../package.json';
 
 

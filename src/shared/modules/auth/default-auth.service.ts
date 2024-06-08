@@ -2,14 +2,13 @@ import { inject, injectable } from 'inversify';
 import * as crypto from 'node:crypto';
 import { SignJWT } from 'jose';
 import { AuthService } from './auth-service.interface.js';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
-import { LoginUserDto, UserEntity, UserService } from '../user';
-// eslint-disable-next-line node/file-extension-in-import
-import { TokenPayload } from './types/TokenPayload';
-import { Config, RestSchema } from '../../libs/config';
-import { UserNotFoundException, UserPasswordIncorrectException } from './errors';
-import { JWT_ALGORITHM, JWT_EXPIRED } from './auth.constant';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { LoginUserDto, UserEntity, UserService } from '../user/index.js';
+import { TokenPayload } from './types/TokenPayload.js';
+import { Config, RestSchema } from '../../libs/config/index.js';
+import { UserNotFoundException, UserPasswordIncorrectException } from './errors/index.js';
+import { JWT_ALGORITHM, JWT_EXPIRED } from './auth.constant.js';
 
 @injectable()
 export class DefaultAuthService implements AuthService {
@@ -24,8 +23,7 @@ export class DefaultAuthService implements AuthService {
     const secretKey = crypto.createSecretKey(jwtSecret, 'utf-8');
     const tokenPayload: TokenPayload = {
       email: user.email,
-      firstname: user.firstname,
-      lastname: user.lastname,
+      name: user.name,
       id: user.id,
     };
 

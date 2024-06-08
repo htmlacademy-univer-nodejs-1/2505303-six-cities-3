@@ -1,19 +1,20 @@
-import { Expose } from 'class-transformer';
-import { UserType } from '../../../types';
+import { Expose, Transform } from 'class-transformer';
+import { UserType } from '../../../types/index.js';
 
 export class UserRdo {
-  @Expose()
-  public email: string ;
+  @Expose({name: '_id'})
+  @Transform(({obj}) => obj._id.toString())
+  public id: string;
 
   @Expose()
-  public avatarPath: string;
+  public name: string;
 
   @Expose()
-  public firstname: string;
+  public email: string;
 
   @Expose()
-  public lastname: string;
+  public avatarUrl: string;
 
   @Expose()
-  public userType: UserType;
+  public type: UserType;
 }

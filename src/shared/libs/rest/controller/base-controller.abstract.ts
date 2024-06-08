@@ -1,13 +1,12 @@
-/* eslint-disable node/file-extension-in-import */
 import { inject,injectable } from 'inversify';
 import { StatusCodes } from 'http-status-codes';
 import { Response, Router } from 'express';
 import asyncHandler from 'express-async-handler';
-import { Controller } from './controller.interface';
-import { Logger } from '../../logger';
-import { Route } from '../types/route.interface';
-import { PathTransformer } from '../transform/path-transformer';
-import { Component } from '../../../types';
+import { Controller } from './controller.interface.js';
+import { Logger } from '../../logger/index.js';
+import { Route } from '../types/route.interface.js';
+import { PathTransformer } from '../transform/path-transformer.js';
+import { Component } from '../../../types/index.js';
 
 const DEFAULT_CONTENT_TYPE = 'application/json';
 
